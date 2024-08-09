@@ -32,8 +32,8 @@ const updateMaterial = (obj, color) => {
     return objects
 }
 
-function UseSelectHighlight(props) {
-    const {renderer, scene, camera, objectSelected} = props
+function UseObjectHighlight(props) {
+    const {renderer, scene, camera, object} = props
 
     const [objectsHighlight, setObjectsHighlight] = useState([])
 
@@ -44,13 +44,13 @@ function UseSelectHighlight(props) {
                 obj.material = obj.userData?.materialOriginal
             })
 
-            const objects = updateMaterial(objectSelected, 0xfff000)
+            const objects = updateMaterial(object, 0xfff000)
             setObjectsHighlight(objects)
         }
 
-    }, [renderer, scene, camera, objectSelected])
+    }, [renderer, scene, camera, object])
 
     return objectsHighlight
 }
 
-export default UseSelectHighlight
+export default UseObjectHighlight

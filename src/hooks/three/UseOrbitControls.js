@@ -13,7 +13,6 @@ function UseOrbitControls(props) {
                 console.log('orbit change', camera.position)
                 renderer.render(scene, camera);
             });
-
             setControl(orbit)
         }
 
