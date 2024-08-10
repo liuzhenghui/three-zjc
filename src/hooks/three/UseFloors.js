@@ -3,47 +3,15 @@ import useObjectSelect from "./UseObjectSelect";
 import useObjectHover from "./UseObjectHover";
 import useObjectHighlight from "./UseObjectHighlight";
 
-const updateMaterial = (obj, color) => {
-    const objects = []
-    if (obj) {
-        if (obj) {
-            if (obj.type === 'Group') {
-                obj.traverse?.(child => {
-                    if (child.isObject3D) {
-                        objects.push(child)
-                    }
-                })
-            } else {
-                objects.push(obj)
-            }
-        }
-        objects.forEach(obj => {
-            if (obj.material) {
-                const materials = Array.isArray(obj.material) ? obj.material : [obj.material]
-                materials.forEach(it => {
-                    const material = it.clone()
-                    material.color.setHex(color)
-                    material.opacity = 0.4
-                    material.transparent = true
-                    material.depthWrite = false
-                    obj.material = material
-                })
-            }
-        })
-    }
-    return objects
-}
-
 function UseFloors(props) {
     const {renderer, scene, camera, objectsSelectable = []} = props
 
     const [floors, setFloors] = useState([])
 
     const floorActive = useObjectSelect({renderer, scene, camera, objects: floors})
-    useObjectHighlight({renderer, scene, camera, object: floorActive})
+    // useObjectHighlight({renderer, scene, camera, object: floorActive})
 
-    // const objectHover = useObjectHover({renderer, scene, camera, objects: floors})
-    // useObjectHighlight({renderer, scene, camera, object: objectHover})
+    const objectHover = useObjectHover({renderer, scene, camera, objects: floors})
 
     useEffect(() => {
         if (camera && renderer) {
@@ -57,14 +25,17 @@ function UseFloors(props) {
             for (let i = 0; i <= 69; i++) {
                 gltfLoader.load(`resources/models/zjc/${i}.glb`, gltf => {
                     console.log('UseFloors gltf.scene', gltf.scene.children)
-                    gltf.scene?.children?.forEach(child => {
+                    gltf.scene.traverse(child => {
                         child.userData = {
                             ...child.userData,
+                            materialOriginal: child.material?.clone?.(),
                             floorOriginal: {
-                                material: child.material,
+                                material: child.material?.clone?.(),
                                 y: child.position.y,
                             }
                         }
+                    })
+                    gltf.scene?.children?.forEach(child => {
                         if (child.isObject3D) {
                             child.receiveShadow = true
                             floors.push(child)

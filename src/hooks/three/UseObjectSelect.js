@@ -1,9 +1,11 @@
 import {useEffect, useState} from "react";
+import useObjectHighlight from "./UseObjectHighlight";
 
 function UseObjectSelect(props) {
     const {renderer, scene, camera, objects = []} = props
 
     const [selected, setSelected] = useState()
+    const [highlight, setHighlight] = useObjectHighlight({name: 'UseObjectSelect', color: 0x00f000})
 
     useEffect(() => {
         if (camera && renderer) {
@@ -26,6 +28,7 @@ function UseObjectSelect(props) {
                             obj = obj.parent
                         }
                         setSelected(obj)
+                        setHighlight(obj)
                     } else {
                         setSelected(undefined)
                     }

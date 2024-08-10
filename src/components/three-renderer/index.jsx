@@ -24,7 +24,7 @@ function ThreeRenderer(props) {
     const {renderer, scene, camera} = useRenderer({canvas, width, height})
     useOrbitControls({renderer, scene, camera})
 
-    useFloors({renderer, scene, camera})
+    const floorActive = useFloors({renderer, scene, camera})
 
     useEffect(() => {
         if (typeof props.onLoad === 'function') {
@@ -48,9 +48,11 @@ function ThreeRenderer(props) {
     }, [scene])
 
     return (
-        <div className="three-renderer" style={{overflow: 'hidden'}}>
-            <canvas ref={callbackRef}></canvas>
-        </div>
+        <>
+            <div className="three-renderer" style={{overflow: 'hidden'}}>
+                <canvas ref={callbackRef}></canvas>
+            </div>
+        </>
     )
 }
 

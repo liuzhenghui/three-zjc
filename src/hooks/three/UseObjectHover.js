@@ -1,9 +1,11 @@
 import {useEffect, useState} from "react";
+import useObjectHighlight from "./UseObjectHighlight";
 
 function UseObjectHover(props) {
     const {renderer, scene, camera, objects = []} = props
 
     const [objectActivated, setObjectActivated] = useState()
+    const [highlight, setHighlight] = useObjectHighlight({name: 'UseObjectHover', color: 0xfff000})
 
     useEffect(() => {
         if (camera && renderer) {
@@ -30,6 +32,7 @@ function UseObjectHover(props) {
                                 obj = obj.parent
                             }
                             setObjectActivated(obj)
+                            setHighlight(obj)
                         } else {
                             setObjectActivated(undefined)
                         }
