@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "homepage":".",
+  "homepage": ".",
   "scripts": {
     "build": "react-scripts build",
     "start": "react-scripts start",
@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "react": "^17.0.1",
+    "antd": "^5.20.0",
+    "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-scripts": "5.0.1"
   },

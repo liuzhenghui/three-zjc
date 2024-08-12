@@ -2,7 +2,7 @@ import {useEffect, useRef, useCallback, useState} from "react";
 
 import useRenderer from '../../hooks/three/UseRenderer'
 import useOrbitControls from '../../hooks/three/UseOrbitControls'
-import useFloors from "../../hooks/three/UseFloors"
+import useFloors from "../../hooks/UseFloors"
 
 function ThreeRenderer(props) {
 

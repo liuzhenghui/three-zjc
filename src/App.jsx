@@ -1,9 +1,10 @@
 import React from 'react';
-import ThreeRenderer from "./components/three-renderer";
+import Home from "./components/home";
+
 export default class App extends React.Component {
     render() {
         return (
-            <ThreeRenderer/>
+            <Home/>
         )
     }
 }

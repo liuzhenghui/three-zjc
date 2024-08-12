@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, useRef} from "react";
 import useObjectHighlight from "./UseObjectHighlight";
 
 function UseObjectSelect(props) {
@@ -6,6 +6,8 @@ function UseObjectSelect(props) {
 
     const [selected, setSelected] = useState()
     const [highlight, setHighlight] = useObjectHighlight({name: 'UseObjectSelect', color: 0x00f000})
+
+    const callbacks = useRef([]).current
 
     useEffect(() => {
         if (camera && renderer) {
@@ -21,16 +23,19 @@ function UseObjectSelect(props) {
 
                     raycaster.setFromCamera(new THREE.Vector2(x, y), camera);
                     const intersects = raycaster.intersectObjects(objects);
+                    let obj = undefined
                     if (intersects.length) {
-                        let obj = intersects[0].object
+                        obj = intersects[0].object
                         console.log('selected', obj.name, obj)
                         while (obj && obj.type === 'Mesh') {
                             obj = obj.parent
                         }
+                    }
+
+                    if (obj !== selected) {
                         setSelected(obj)
                         setHighlight(obj)
-                    } else {
-                        setSelected(undefined)
+                        callbacks.forEach(callback => callback(obj))
                     }
                 }
             }
@@ -48,6 +53,12 @@ function UseObjectSelect(props) {
         }
 
     }, [renderer, scene, camera, objects])
+
+    const onChange = (callback) => {
+        if (callback && typeof callback === 'function') {
+            callbacks.push(callback)
+        }
+    }
 
     return selected
 }

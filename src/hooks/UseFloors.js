@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
-import useObjectSelect from "./UseObjectSelect";
-import useObjectHover from "./UseObjectHover";
-import useObjectHighlight from "./UseObjectHighlight";
+import useObjectSelect from "./three/UseObjectSelect";
+import useObjectHover from "./three/UseObjectHover";
 
 function UseFloors(props) {
     const {renderer, scene, camera, objectsSelectable = []} = props
@@ -9,8 +8,6 @@ function UseFloors(props) {
     const [floors, setFloors] = useState([])
 
     const floorActive = useObjectSelect({renderer, scene, camera, objects: floors})
-    // useObjectHighlight({renderer, scene, camera, object: floorActive})
-
     const objectHover = useObjectHover({renderer, scene, camera, objects: floors})
 
     useEffect(() => {
