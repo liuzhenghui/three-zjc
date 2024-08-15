@@ -1,4 +1,4 @@
-import {Suspense, useState, useCallback} from "react";
+import {Suspense, useState, useMemo} from "react";
 import Glb from "./Glb";
 import FloorDialog from "./FloorDialog";
 
@@ -9,16 +9,18 @@ function Home(props) {
 
     const floors = new Array(70).fill(0).map((x, i) => i)
 
-    const floorClickHandle = (() => {
-        let timer = null
-        return floor => {
-            timer && clearTimeout(timer)
-            timer = setTimeout(() => {
-                setFloor(floor)
-                // alert(floor)
-            }, 100)
-        }
-    })()
+    const floorClickHandle = useMemo(() => {
+        return (() => {
+            let timer = null
+            return floor => {
+                timer && clearTimeout(timer)
+                timer = setTimeout(() => {
+                    setFloor(floor)
+                    // alert(floor)
+                }, 100)
+            }
+        })()
+    }, [])
 
     return (
         <div className="home">
