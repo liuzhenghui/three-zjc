@@ -1,12 +1,12 @@
-import {useEffect, Suspense, useState, useMemo} from "react";
+import {useRef, Suspense, useState, useMemo} from "react";
 import Glb from "./Glb";
 import FloorDialog from "./FloorDialog";
 import Animation from "./three/Animation";
 import InitConfig from "./three/InitConfig";
+import CameraControls from "./three/CameraControls";
 
 function Home(props) {
-    const {THREE, Fiber, Drei} = window.ThreeLibs
-
+    const {Fiber, Drei} = window.ThreeLibs
 
     const [floor, setFloor] = useState(-100)
 
@@ -29,20 +29,10 @@ function Home(props) {
     return (
         <div className="home">
             <Fiber.Canvas
-                gl={{
-                    clearColor: new THREE.Color(0x4682B4, 0.6),
-                }}
-                shadows="soft"
-                camera={{fov: 75, near: 0.1, far: 1000, position: [112, 197, 248]}}
+                shadows
+                camera={{fov: 75, near: 5, far: 2000, position: [-500, 750, 280]}}
             >
                 <InitConfig/>
-                <Drei.PerspectiveCamera
-                    fov={6}
-                    aspect={window.innerWidth / window.innerHeight}
-                    near={0.1}
-                    far={10}
-                    position={[0, 0, 0]}
-                />
                 <directionalLight args={[0xffffff, 1]} position={[1500, 800, 1870]}/>
                 <pointLight position={[10, 10, 10]}/>
                 <ambientLight intensity={1} args={["#dedede"]}/>
@@ -56,11 +46,13 @@ function Home(props) {
                         />
                     </Suspense>
                 ))}
-                <Drei.OrbitControls/>
+                <CameraControls onChange={camera => {
+                    // console.log('OrbitControls change', camera?.position)
+                }}/>
                 <Animation/>
             </Fiber.Canvas>
 
-            {/*<FloorDialog floor={floor} open={floor >= 0} onClose={() => setFloor(-100)}/>*/}
+            <FloorDialog floor={floor} open={floor >= 0} onClose={() => setFloor(-100)}/>
         </div>
     )
 }
