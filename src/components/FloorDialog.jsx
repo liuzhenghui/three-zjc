@@ -27,7 +27,7 @@ function FloorDialog(props) {
             >
                 <directionalLight args={[0xffffff]} position={[100, 800, 1870]}/>
                 <pointLight position={[-1000, -1000, 1000]}/>
-                <Suspense fallback={null}><Glb name={floor}/></Suspense>
+                <Suspense fallback={null}><Glb name={`f${floor}`}/></Suspense>
                 <CameraControls onChange={camera => {
                     // console.log('OrbitControls change', camera?.position)
                 }}/>

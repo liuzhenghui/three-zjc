@@ -19,6 +19,7 @@ function Home(props) {
             return floor => {
                 timer && clearTimeout(timer)
                 timer = setTimeout(() => {
+                    console.log('floor', floor)
                     setFloor(floor)
                     // alert(floor)
                 }, 100)
@@ -37,12 +38,12 @@ function Home(props) {
                 <pointLight position={[10, 10, 10]}/>
                 <ambientLight intensity={1} args={["#dedede"]}/>
                 <Suspense fallback={null}><Glb name="四周环境"/></Suspense>
-                {floors.filter(it => it > 0).map(i => (
+                {floors.map(i => (
                     <Suspense key={i} fallback={null}>
                         <Glb
                             name={i}
                             scale={(floor === i) ? 1 : 1.5}
-                            onClick={() => floorClickHandle(0)}
+                            onClick={() => floorClickHandle(i)}
                         />
                     </Suspense>
                 ))}
