@@ -6,7 +6,10 @@ function App() {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        loadjs('${appRes}/ThreeLibs.min.js', () => setLoading(false))
+        loadjs('${appRes}/ThreeLibs.min.js', () => {
+            console.log('ThreeLibs loaded', window.ThreeLibs)
+            setLoading(false)
+        })
     }, []);
 
     return (

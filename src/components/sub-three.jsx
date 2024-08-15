@@ -9,7 +9,7 @@ function Test() {
 }
 
 function SubThree(props) {
-    const {Three, Addons, Fiber, Drei} = window.ThreeLibs
+    const {THREE, Addons, Fiber, Drei} = window.ThreeLibs
 
     const {onClose} = props
 
