@@ -25,15 +25,15 @@ function FloorDialog(props) {
             <Fiber.Canvas
                 camera={{position: [22, 50, 33]}}
             >
-                <directionalLight args={[0xffffff]} position={[100, 800, 1870]}/>
-                <pointLight position={[-1000, -1000, 1000]}/>
-                <Suspense fallback={null}><Glb name={`f${floor}`}/></Suspense>
+                <directionalLight args={[0xffffff]} position={[2000, 2000, 1000]}/>
+                <pointLight position={[-100, -100, -100]}/>
+                <Suspense fallback={null}><Glb name={floor}/></Suspense>
                 <CameraControls onChange={camera => {
                     // console.log('OrbitControls change', camera?.position)
                 }}/>
             </Fiber.Canvas>
 
-            <div style={{position: 'absolute', top: 200, right: 20}}>
+            <div style={{position: 'absolute', top: 20, right: 20}}>
                 <Button onClick={onClose}>返回</Button>
             </div>
         </div>

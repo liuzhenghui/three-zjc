@@ -20,7 +20,7 @@ function Home(props) {
                 timer && clearTimeout(timer)
                 timer = setTimeout(() => {
                     console.log('floor', floor)
-                    setFloor(floor)
+                    setTimeout(() => setFloor(floor), 1000)
                     // alert(floor)
                 }, 100)
             }
@@ -34,8 +34,8 @@ function Home(props) {
                 camera={{fov: 75, near: 5, far: 2000, position: [-500, 750, 280]}}
             >
                 <InitConfig/>
-                <directionalLight args={[0xffffff, 1]} position={[1500, 800, 1870]}/>
-                <pointLight position={[10, 10, 10]}/>
+                <directionalLight args={[0xffffff, 1]} position={[2000, 2000, 1000]}/>
+                <pointLight position={[-2000, -2000, -1000]}/>
                 <ambientLight intensity={1} args={["#dedede"]}/>
                 <Suspense fallback={null}><Glb name="四周环境"/></Suspense>
                 {floors.map(i => (
