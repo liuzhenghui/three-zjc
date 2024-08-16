@@ -34,26 +34,31 @@ function Home(props) {
             <Fiber.Canvas
                 className="main-canvas"
                 shadows
-                camera={{fov: 75, near: 5, far: 2000, position: [65, 160, 200]}}
+                camera={{fov: 75, near: 5, far: 2000, position: [230, 550, -80]}}
             >
                 <InitConfig/>
                 <directionalLight intensity={1} position={[2000, 2000, 1000]}/>
                 <pointLight position={[-2000, -2000, -1000]}/>
                 <ambientLight intensity={1} args={["#dedede"]}/>
-                <Gltf file="四周环境.glb"
-                      onProgress={(url, loaded, total) => setProgress(loaded / total)}
-                      onLoad={() => setLoading(false)}
+                <Gltf
+                    file="四周环境.glb"
+                    ref={r => r?.position?.set?.(0, -150, 250)}
+                    onProgress={(url, loaded, total) => setProgress(loaded / total)}
+                    onLoad={() => setLoading(false)}
                 />
                 {floors.map(it => (
                     <Gltf
                         key={it.index}
                         file={it.file}
-                        ref={ref => it.object = ref}
+                        ref={r => {
+                            r?.position?.set?.(0, -150, 250)
+                            it.object = r
+                        }}
                         onClick={() => floorClickHandle(it)}
                     />
                 ))}
                 <CameraControls
-                    // onChange={camera => console.log('OrbitControls change', camera?.position)}
+                    onChange={camera => console.log('OrbitControls change', camera?.position)}
                 />
                 {!loading ? <Animation/> : null}
             </Fiber.Canvas>

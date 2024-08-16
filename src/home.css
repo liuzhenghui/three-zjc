@@ -38,10 +38,16 @@
     background-color: #fff;
     text-align: center;
     cursor: pointer;
+    font-size: 14px;
 }
 
 .Home > .Sidebar .item.active {
     background-color: #4682B4;
+    color: #fff;
+}
+
+.Home > .Sidebar .item:hover {
+    background-color: #75afdc;
     color: #fff;
 }
 

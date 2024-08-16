@@ -7,7 +7,7 @@ function Animation() {
 
     const tween = useMemo(() => {
         return new TWEEN.Tween({x: camera.position.x, y: camera.position.y, z: camera.position.z})
-            .to({x: 190, y: 475, z: 630}, 2000)
+            .to({x: 116, y: -10, z: 455}, 2000)
             .onUpdate(obj => camera.position.set(obj.x, obj.y, obj.z))
             .start()
     }, [])
