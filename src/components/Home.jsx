@@ -79,7 +79,7 @@ function Home(props) {
                 <CameraControls
                     onChange={camera => console.log('OrbitControls change', camera?.position)}
                 />
-                {!loading ? <Animation/> : null}
+                {!loading ? <Animation to={[38, 4, 470]} time={2000}/> : null}
             </Fiber.Canvas>
 
             <FloorDialog floor={floor} open={(!!floor)}/>
