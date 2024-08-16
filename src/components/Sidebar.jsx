@@ -9,7 +9,12 @@ function Sidebar(props) {
 
     return (
         <div className="Sidebar">
-            <div className="main item" onClick={() => onChange?.(null)}>首页</div>
+            <div
+                className={`main item ${floor ? '' : 'active'}`}
+                onClick={() => onChange?.(null)}
+            >
+                {floor ? '返回' : ''}首页
+            </div>
             <div className="items">
                 {floors.map(it => (
                     <div
