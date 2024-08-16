@@ -46,7 +46,9 @@ function FloorDialog(props) {
             >
                 <directionalLight intensity={2} position={[2000, 2000, 1000]}/>
                 <pointLight position={[-100, -100, -100]}/>
-                {floor ? <primitive object={floor}/> : null}
+                {floor ? <primitive ref={r => {
+                    r?.position?.set?.(0, 0, 0)
+                }} object={floor}/> : null}
                 <CameraControls
                     // onChange={camera => console.log('FloorDialog OrbitControls', camera?.position)}
                 />

@@ -54,7 +54,8 @@ function Home(props) {
                 {!loading ? <Animation/> : null}
             </Fiber.Canvas>
 
-            <FloorDialog floor={floor?.object?.clone?.()} open={(!!floor)} onClose={() => setFloor(null)}/>
+            <FloorDialog floor={floor?.object?.children?.[0]?.clone?.()} open={(!!floor)}
+                         onClose={() => setFloor(null)}/>
 
             {loading ? (
                 <div className="loading">
