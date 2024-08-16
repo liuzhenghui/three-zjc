@@ -40,19 +40,11 @@ function FloorDialog(props) {
     if (!open) return <></>
 
     return (
-        <div style={{
-            width: '100%',
-            height: '100%',
-            position: 'absolute',
-            inset: 0,
-            background: 'rgba(0, 0, 0, .8)',
-            transition: 'all 10.35s',
-            animation: 'fadeIn 1s forwards',
-        }}>
+        <div className={`FloorDialog fadeIn ${open ? 'open' : ''}`}>
             <Fiber.Canvas
                 camera={{position: [22, 50, 33]}}
             >
-                <directionalLight args={[0xffffff]} position={[2000, 2000, 1000]}/>
+                <directionalLight intensity={2} position={[2000, 2000, 1000]}/>
                 <pointLight position={[-100, -100, -100]}/>
                 {floor ? <primitive object={floor}/> : null}
                 <CameraControls

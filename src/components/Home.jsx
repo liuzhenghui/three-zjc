@@ -28,6 +28,7 @@ function Home(props) {
     return (
         <div className="Home">
             <Fiber.Canvas
+                className="main-canvas"
                 shadows
                 camera={{fov: 75, near: 5, far: 2000, position: [65, 160, 200]}}
             >
