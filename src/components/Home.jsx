@@ -1,5 +1,5 @@
 import {useRef, Suspense, useState, useMemo} from "react";
-import Glb from "./Glb";
+import Gltf from "./Gltf";
 import FloorDialog from "./FloorDialog";
 import Animation from "./three/Animation";
 import InitConfig from "./three/InitConfig";
@@ -8,10 +8,11 @@ import CameraControls from "./three/CameraControls";
 function Home(props) {
     const {Fiber, Drei} = window.ThreeLibs
 
-    const [floor, setFloor] = useState(-100)
+    const [loading, setLoading] = useState(true)
+    const [progress, setProgress] = useState(0)
+    const [floor, setFloor] = useState()
 
-    const floors = new Array(70).fill(0).map((x, i) => i)
-
+    const floors = new Array(70).fill({}).map((x, i) => ({index: i, file: `${i}.glb`}))
 
     const floorClickHandle = useMemo(() => {
         return (() => {
@@ -19,7 +20,7 @@ function Home(props) {
             return floor => {
                 timer && clearTimeout(timer)
                 timer = setTimeout(() => {
-                    console.log('floor', floor)
+                    console.log('floor', floor, floors)
                     setTimeout(() => setFloor(floor), 1000)
                     // alert(floor)
                 }, 100)
@@ -28,32 +29,44 @@ function Home(props) {
     }, [])
 
     return (
-        <div className="home">
+        <div className="Home">
             <Fiber.Canvas
                 shadows
-                camera={{fov: 75, near: 5, far: 2000, position: [-500, 750, 280]}}
+                camera={{fov: 75, near: 5, far: 2000, position: [65, 160, 200]}}
             >
                 <InitConfig/>
                 <directionalLight intensity={1} position={[2000, 2000, 1000]}/>
                 <pointLight position={[-2000, -2000, -1000]}/>
                 <ambientLight intensity={1} args={["#dedede"]}/>
-                <Suspense fallback={null}><Glb name="四周环境"/></Suspense>
-                {floors.map(i => (
-                    <Suspense key={i} fallback={null}>
-                        <Glb
-                            name={i}
-                            scale={(floor === i) ? 1 : 1.5}
-                            onClick={() => floorClickHandle(i)}
-                        />
-                    </Suspense>
+                <Gltf file="四周环境.glb"
+                      onProgress={(url, loaded, total) => setProgress(loaded / total)}
+                      onLoad={() => setLoading(false)}
+                />
+                {floors.map(it => (
+                    <Gltf
+                        key={it.index}
+                        file={it.file}
+                        ref={ref => {
+                            console.log('Gltf ref', ref)
+                            it.object = ref
+                        }}
+                        onClick={() => floorClickHandle(it)}
+                    />
                 ))}
-                <CameraControls onChange={camera => {
-                    // console.log('OrbitControls change', camera?.position)
-                }}/>
-                <Animation/>
+                <CameraControls
+                    // onChange={camera => console.log('OrbitControls change', camera?.position)}
+                />
+                {!loading ? <Animation/> : null}
             </Fiber.Canvas>
 
-            <FloorDialog floor={floor} open={floor >= 0} onClose={() => setFloor(-100)}/>
+            <FloorDialog floor={floor?.object?.clone?.()} open={(!!floor)} onClose={() => setFloor(null)}/>
+
+            {loading ? (
+                <div className="loading">
+                    <progress max={1} value={progress}></progress>
+                    <div>正在加载模型({(progress * 100).toFixed(1)}%)</div>
+                </div>
+            ) : null}
         </div>
     )
 }

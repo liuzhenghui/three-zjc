@@ -1,14 +1,13 @@
 import React, {useEffect, useRef, useState, Suspense, useCallback} from 'react';
 import {Button} from 'antd';
-import Glb from "./Glb";
 import CameraControls from "./three/CameraControls";
 
 function FloorDialog(props) {
-    const {Fiber, Drei} = window.ThreeLibs
+    const {Fiber} = window.ThreeLibs
 
     const {open = false, floor, onClose} = props
 
-    if (!open || floor < 0) return <></>
+    if (!open) return <></>
 
     return (
         <div style={{
@@ -25,10 +24,10 @@ function FloorDialog(props) {
             >
                 <directionalLight args={[0xffffff]} position={[2000, 2000, 1000]}/>
                 <pointLight position={[-100, -100, -100]}/>
-                <Suspense fallback={null}><Glb name={`f${floor}`} children={true}/></Suspense>
-                <CameraControls onChange={camera => {
-                    // console.log('OrbitControls change', camera?.position)
-                }}/>
+                {floor ? <primitive object={floor}/> : null}
+                <CameraControls
+                    // onChange={camera => console.log('FloorDialog OrbitControls', camera?.position)}
+                />
             </Fiber.Canvas>
 
             <div style={{position: 'absolute', top: 20, right: 20}}>

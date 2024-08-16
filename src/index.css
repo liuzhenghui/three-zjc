@@ -30,7 +30,3 @@ html, body {
     background-color: #000;
     animation: loading-ball-scale infinite linear 1s;
 }
-
-.home {
-    height: 100%;
-}

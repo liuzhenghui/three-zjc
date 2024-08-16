@@ -1,4 +1,4 @@
-import {useEffect, useMemo} from "react";
+import {useMemo} from "react";
 
 function Animation() {
     const {Fiber, TWEEN} = window.ThreeLibs
@@ -9,13 +9,7 @@ function Animation() {
         return new TWEEN.Tween({x: camera.position.x, y: camera.position.y, z: camera.position.z})
             .to({x: 190, y: 475, z: 630}, 2000)
             .onUpdate(obj => camera.position.set(obj.x, obj.y, obj.z))
-
-    }, [])
-
-    useEffect(() => {
-        setTimeout(() => {
-            tween.start()
-        }, 3000)
+            .start()
     }, [])
 
     Fiber.useFrame(() => {
