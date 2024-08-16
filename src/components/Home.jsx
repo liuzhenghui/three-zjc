@@ -1,12 +1,13 @@
-import {useRef, Suspense, useState, useMemo} from "react";
+import {useState, useMemo} from "react";
 import Gltf from "./Gltf";
 import FloorDialog from "./FloorDialog";
 import Animation from "./three/Animation";
 import InitConfig from "./three/InitConfig";
 import CameraControls from "./three/CameraControls";
+import Sidebar from "./Sidebar";
 
 function Home(props) {
-    const {Fiber, Drei} = window.ThreeLibs
+    const {Fiber} = window.ThreeLibs
 
     const [loading, setLoading] = useState(true)
     const [progress, setProgress] = useState(0)
@@ -27,6 +28,9 @@ function Home(props) {
 
     return (
         <div className="Home">
+
+            <Sidebar floors={floors} floor={floor} onChange={f => !loading && setFloor(f)}/>
+
             <Fiber.Canvas
                 className="main-canvas"
                 shadows
@@ -54,8 +58,7 @@ function Home(props) {
                 {!loading ? <Animation/> : null}
             </Fiber.Canvas>
 
-            <FloorDialog floor={floor?.object?.children?.[0]?.clone?.()} open={(!!floor)}
-                         onClose={() => setFloor(null)}/>
+            <FloorDialog floor={floor} open={(!!floor)}/>
 
             {loading ? (
                 <div className="loading">

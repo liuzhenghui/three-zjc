@@ -17,6 +17,60 @@
     width: 200px;
 }
 
+.Home > .Sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    position: absolute;
+    top: 60px;
+    bottom: 300px;
+    right: 10px;
+    width: 160px;
+    padding: 10px;
+    z-index: 1000;
+    background-color: #ffffff00;
+}
+
+.Home > .Sidebar .item {
+    height: 25px;
+    line-height: 25px;
+    margin-bottom: 5px;
+    background-color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+
+.Home > .Sidebar .item.active {
+    background-color: #4682B4;
+    color: #fff;
+}
+
+.Home > .Sidebar .item:last-child {
+    margin-bottom: 0;
+}
+
+.Home > .Sidebar .items {
+    height: 100%;
+    overflow: auto;
+    padding: 5px;
+}
+
+.Home > .Sidebar .items::-webkit-scrollbar {
+    display: none;
+    position: absolute;
+    width: 6px;
+    background-color: transparent;
+}
+
+.Home > .Sidebar .items:hover::-webkit-scrollbar {
+    display: unset;
+}
+
+.Home > .Sidebar .items::-webkit-scrollbar-thumb {
+    background-color: #FFFFFFB8;
+    border-radius: 3px;
+}
+
 .Home:has(.FloorDialog.open) .main-canvas {
     filter: blur(8px);
     transition: 0.5s;
@@ -38,4 +92,20 @@
     inset: 0;
     background: rgba(0, 0, 0, 0.7);
     animation: 2s ease 0s 1 normal forwards running fadeIn;
+}
+
+.Home .FloorDialog .header {
+    position: fixed;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    display: flex;
+    z-index: 100;
+}
+
+.Home .FloorDialog .header .title {
+    color: #fff;
+    font-size: 26px;
+    flex: 1;
+    text-align: center;
 }
