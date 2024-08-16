@@ -13,7 +13,7 @@ const cleanMaterial = material => {
 }
 
 function FloorDialog(props) {
-    const {Fiber} = window.ThreeLibs
+    const {Fiber, Drei} = window.ThreeLibs
 
     const {open = false, floor} = props
 
@@ -33,6 +33,8 @@ function FloorDialog(props) {
                 <CameraControls
                     // onChange={camera => console.log('FloorDialog OrbitControls', camera?.position)}
                 />
+                <Drei.FlyControls enableDamping={false} movementSpeed={3} rollSpeed={0.05} dragToLook={true}
+                                  makeDefault/>
             </Fiber.Canvas>
         </div>
     )

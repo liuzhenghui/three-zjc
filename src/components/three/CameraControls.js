@@ -5,7 +5,11 @@ function CameraControls(props) {
 
     const {camera} = Fiber.useThree()
 
-    return <Drei.OrbitControls onChange={() => onChange?.(camera)}/>
+    return <Drei.OrbitControls
+        enableDamping={true}
+        {...props}
+        onChange={() => onChange?.(camera)}
+    />
 }
 
 export default CameraControls

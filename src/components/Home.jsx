@@ -7,7 +7,7 @@ import CameraControls from "./three/CameraControls";
 import Sidebar from "./Sidebar";
 
 function Home(props) {
-    const {Fiber} = window.ThreeLibs
+    const {Fiber, Drei} = window.ThreeLibs
 
     const [loading, setLoading] = useState(true)
     const [progress, setProgress] = useState(0)
@@ -34,12 +34,31 @@ function Home(props) {
             <Fiber.Canvas
                 className="main-canvas"
                 shadows
-                camera={{fov: 75, near: 5, far: 2000, position: [230, 550, -80]}}
+                camera={{fov: 75, near: 5, far: 1200, position: [230, 550, -80]}}
             >
                 <InitConfig/>
                 <directionalLight intensity={1} position={[2000, 2000, 1000]}/>
                 <pointLight position={[-2000, -2000, -1000]}/>
                 <ambientLight intensity={1} args={["#dedede"]}/>
+                {/*<fog attach="fog" args={[0xfff0ea, 1, 1500]}/>*/}
+                <Drei.Sky
+                    distance={100000}  // 天空盒的覆盖范围
+                    sunPosition={[-800, 1000, -800]}  // 太阳位置
+                    azimuth={180} //太阳水平方向位置
+                    inclination={1000}  // 太阳倾斜角度，值越大太阳越高
+                    mieCoefficient={0}  // Mie 散射系数，影响天空的亮度和颜色
+                    mieDirectionalG={0.7}  // Mie 方向系数，影响天空的光散射角度
+                    rayleigh={0.2}  // Rayleigh 散射系数，影响天空的亮度和颜色
+                    turbidity={1}  // 浊度，影响天空的清晰度和颜色
+                />
+                {/*<mesh>*/}
+                {/*    <planeGeometry args={[1, 1, 1]}/>*/}
+                {/*    <meshPhysicalMateria color={0x808080} metalness={0} roughness={0.1}/>*/}
+                {/*</mesh>*/}
+                <mesh rotation={[-0.5 * Math.PI, 0, 0]} position={[0, -150, 0]}>
+                    <planeGeometry args={[10000, 10000]}/>
+                    <meshPhysicalMaterial color={0x5A7EA0} receiveShadow={true} metalness={0} roughness={0.1}/>
+                </mesh>
                 <Gltf
                     file="四周环境new.glb"
                     ref={r => r?.position?.set?.(0, -150, 250)}
