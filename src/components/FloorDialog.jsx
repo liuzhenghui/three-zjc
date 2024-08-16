@@ -7,6 +7,36 @@ function FloorDialog(props) {
 
     const {open = false, floor, onClose} = props
 
+    useEffect(() => {
+        return () => {
+            // 释放资源
+            const cleanMaterial = material => {
+                material.dispose(); // 清理材质
+                if (material.map) material.map.dispose(); // 清理纹理
+                if (material.lightMap) material.lightMap.dispose();
+                if (material.bumpMap) material.bumpMap.dispose();
+                if (material.normalMap) material.normalMap.dispose();
+                if (material.specularMap) material.specularMap.dispose();
+                if (material.envMap) material.envMap.dispose();
+            }
+            floor?.traverse?.(child => {
+                if (child.isMesh) {
+                    // 清理几何体和材质
+                    child.geometry.dispose();
+                    if (child.material.isMaterial) {
+                        cleanMaterial(child.material);
+                    } else {
+                        // 材质是数组的情况
+                        for (let i = 0; i < child.material.length; i++) {
+                            cleanMaterial(child.material[i]);
+                        }
+                    }
+                }
+            })
+            floor?.dispose?.()
+        }
+    }, [floor])
+
     if (!open) return <></>
 
     return (

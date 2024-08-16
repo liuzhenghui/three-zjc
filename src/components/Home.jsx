@@ -14,16 +14,13 @@ function Home(props) {
 
     const floors = new Array(70).fill({}).map((x, i) => ({index: i, file: `${i}.glb`}))
 
+    // 防抖，点击模型会触多次，以及会穿透模型选中多个
     const floorClickHandle = useMemo(() => {
         return (() => {
             let timer = null
             return floor => {
                 timer && clearTimeout(timer)
-                timer = setTimeout(() => {
-                    console.log('floor', floor, floors)
-                    setTimeout(() => setFloor(floor), 1000)
-                    // alert(floor)
-                }, 100)
+                timer = setTimeout(() => setFloor(floor), 100)
             }
         })()
     }, [])
@@ -46,10 +43,7 @@ function Home(props) {
                     <Gltf
                         key={it.index}
                         file={it.file}
-                        ref={ref => {
-                            console.log('Gltf ref', ref)
-                            it.object = ref
-                        }}
+                        ref={ref => it.object = ref}
                         onClick={() => floorClickHandle(it)}
                     />
                 ))}
