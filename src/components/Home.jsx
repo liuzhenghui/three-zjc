@@ -13,7 +13,10 @@ function Home(props) {
     const [progress, setProgress] = useState(0)
     const [floor, setFloor] = useState()
 
-    const floors = new Array(70).fill({}).map((x, i) => ({index: i, file: `${i}.glb`}))
+    const floors = useMemo(() => {
+        return new Array(70).fill({})
+            .map((x, i) => ({index: i, name: 'floor' + i.toString().padStart(3, '0')}))
+    }, [])
 
     // 防抖，点击模型会触多次，以及会穿透模型选中多个
     const floorClickHandle = useMemo(() => {
@@ -25,6 +28,19 @@ function Home(props) {
             }
         })()
     }, [])
+
+    const onBuildingRef = (name, ref) => {
+        const found = floors.find(it => it.name === name)
+        // console.log('onBuildingRef', name, found?.object)
+        if (found) {
+            if (ref?.position && !found.loaded) {
+                ref.position.y -= 150
+                ref.position.z += 250
+            }
+            found.object = ref
+            found.loaded = true
+        }
+    }
 
     return (
         <div className="Home">
@@ -51,33 +67,23 @@ function Home(props) {
                     rayleigh={0.2}  // Rayleigh 散射系数，影响天空的亮度和颜色
                     turbidity={1}  // 浊度，影响天空的清晰度和颜色
                 />
-                {/*<mesh>*/}
-                {/*    <planeGeometry args={[1, 1, 1]}/>*/}
-                {/*    <meshPhysicalMateria color={0x808080} metalness={0} roughness={0.1}/>*/}
-                {/*</mesh>*/}
                 <mesh rotation={[-0.5 * Math.PI, 0, 0]} position={[0, -150, 0]}>
                     <planeGeometry args={[10000, 10000]}/>
                     <meshPhysicalMaterial color={0x5A7EA0} receiveShadow={true} metalness={0} roughness={0.1}/>
                 </mesh>
                 <Gltf
                     file="四周环境new.glb"
-                    ref={r => r?.position?.set?.(0, -150, 250)}
+                    position={[0, -150, 250]}
                     onProgress={(url, loaded, total) => setProgress(loaded / total)}
                     onLoad={() => setLoading(false)}
                 />
-                {floors.map(it => (
-                    <Gltf
-                        key={it.index}
-                        file={it.file}
-                        ref={r => {
-                            r?.position?.set?.(0, -150, 250)
-                            it.object = r
-                        }}
-                        onClick={() => floorClickHandle(it)}
-                    />
-                ))}
+                <Gltf
+                    file="building.glb"
+                    onRef={(name, ref) => onBuildingRef(name, ref)}
+                    onClick={name => floorClickHandle(floors.find(it => it.name === name))}
+                />
                 <CameraControls
-                    onChange={camera => console.log('OrbitControls change', camera?.position)}
+                    // onChange={camera => console.log('OrbitControls change', camera?.position)}
                 />
                 {!loading ? <Animation to={[38, 4, 470]} time={2000}/> : null}
             </Fiber.Canvas>
