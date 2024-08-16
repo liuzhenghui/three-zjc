@@ -41,7 +41,7 @@ function Home(props) {
                 <pointLight position={[-2000, -2000, -1000]}/>
                 <ambientLight intensity={1} args={["#dedede"]}/>
                 <Gltf
-                    file="四周环境.glb"
+                    file="四周环境new.glb"
                     ref={r => r?.position?.set?.(0, -150, 250)}
                     onProgress={(url, loaded, total) => setProgress(loaded / total)}
                     onLoad={() => setLoading(false)}
