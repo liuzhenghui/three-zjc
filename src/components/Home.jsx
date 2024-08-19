@@ -48,7 +48,7 @@ function Home(props) {
                         setFloor(floor)
                     }}
                 />
-                <CameraControls/>
+                <CameraControls maxPolarAngle={90 / 180 * Math.PI}/>
                 {!loading ? <Animation to={[38, 4, 470]} time={2000}/> : null}
             </Fiber.Canvas>
 
