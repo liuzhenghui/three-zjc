@@ -23,17 +23,16 @@ function Home(props) {
             <Fiber.Canvas
                 className="main-canvas"
                 shadows
-                camera={{fov: 75, near: 5, far: 1200, position: [230, 550, -80]}}
+                camera={{fov: 75, near: 5, far: 12000, position: [230, 550, -80]}}
             >
                 <InitConfig/>
                 <directionalLight intensity={1} position={[2000, 2000, 1000]}/>
                 <pointLight position={[-2000, -2000, -1000]}/>
                 <ambientLight intensity={1} args={["#dedede"]}/>
-                {/*<fog attach="fog" args={[0xfff0ea, 1, 1500]}/>*/}
-                <Drei.Sky distance={100000} mieCoefficient={0}/>
+                <fog attach="fog" args={[0xfff0ea, 1, 4000]}/>
                 <mesh rotation={[-0.5 * Math.PI, 0, 0]} position={[0, -150, 0]}>
-                    <planeGeometry args={[10000, 10000]}/>
-                    <meshPhysicalMaterial color={0x5A7EA0} receiveShadow={true} metalness={0} roughness={0.1}/>
+                    <circleGeometry args={[10000, 180]}/>
+                    <meshPhysicalMaterial color={0x5b6875} receiveShadow={true} metalness={0} roughness={0.1}/>
                 </mesh>
                 <Gltf
                     file="ground.glb"
