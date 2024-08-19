@@ -1,13 +1,26 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useEffect} from 'react';
 import CameraControls from "./three/CameraControls";
 import Animation from "./three/Animation";
 
 function FloorDialog(props) {
     const {Fiber} = window.ThreeLibs
 
-    const {open = false, floor} = props
+    const {open = false, floor, onClose} = props
 
-    const object = useMemo(() => floor?.object?.clone?.(), [floor])
+    const object = useMemo(() => floor?.object?.clone?.(), [floor?.object])
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                onClose?.();
+            }
+        }
+        document.addEventListener('keydown', handleKeyDown)
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown)
+        };
+    }, []);
 
     if (!open) return <></>
 
@@ -19,7 +32,7 @@ function FloorDialog(props) {
             <Fiber.Canvas key={floor?.index} camera={{position: [15, -15, -25]}}>
                 <directionalLight intensity={2} position={[2000, 2000, 1000]}/>
                 <pointLight position={[-100, -100, -100]}/>
-                {floor?.object ? <primitive ref={r => r?.position?.set?.(0, -10, 0)} object={object}/> : null}
+                {object ? <primitive position={[0, -10, 0]} object={object}/> : null}
                 <CameraControls
                     // onChange={camera => console.log('FloorDialog OrbitControls', camera?.position)}
                 />
